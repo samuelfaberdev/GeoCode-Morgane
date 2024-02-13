@@ -10,17 +10,12 @@ const browse = async (req, res, next) => {
 
     const user = await tables.user.checkToken(token);
 
-    const vehicules = await tables.vehicule.checkVehicule(user[0].id);
-    const vehiculeMap = vehicules.map(async (vehicule) => {
-      const reservation = await tables.reservation.checkReservationForDelete(
-        vehicule.id
-      );
-      data.push(reservation);
-    });
+    const reservation = await tables.reservation.checkReservationForDelete(
+      user[0].id
+    );
+    data.push(reservation);
 
-    Promise.all(vehiculeMap).then(() => {
-      res.json(data);
-    });
+    res.json(data[0]);
   } catch (err) {
     next(err);
   }
@@ -62,13 +57,14 @@ const readAll = async (req, res, next) => {
 };
 const add = async (req, res, next) => {
   const reservationData = req.body;
+
   if (reservationData.date === "" || reservationData.heure === "") {
     res.status(200).send({ message: "L'un des paramètres est manquant" });
   } else {
     try {
       // Insert the item into the database
       const insertId = await tables.reservation.create(reservationData);
-      console.info(insertId);
+
       // Respond with HTTP 201 (Created) and the ID of the newly inserted item
 
       res.status(201).json({ insertId });

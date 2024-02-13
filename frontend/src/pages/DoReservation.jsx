@@ -37,6 +37,7 @@ function DoReservation() {
     heure: date.heure,
     heure_fin: newHeure,
     borne_id: borneId.borne_id,
+    proprietaire_id: userId,
     vehicule_id: reservation,
   };
   console.info(reservation);

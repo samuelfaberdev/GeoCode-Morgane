@@ -28,7 +28,7 @@ export default function AdminAddVehicule() {
     }
     setTimeout(() => {
       window.location.href = "/addVehicule";
-    }, 3000);
+    }, 100);
   }
 
   useEffect(() => {

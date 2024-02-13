@@ -24,7 +24,6 @@ export default function ReservationCard({ id, borneId, date }) {
       <p className="nameborne">{borneInfo?.n_station}</p>
       <p className="date">{dateFr}</p>
       <div className="buttons-container">
-        <button type="button">Modifier la réservation</button>
         <button
           type="button"
           onClick={() =>

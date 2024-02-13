@@ -12,11 +12,12 @@ class ReservationManager extends AbstractManager {
   async create(reservationData) {
     // Execute the SQL INSERT query to add a new item to the "item" table
     const [result] = await this.database.query(
-      `insert into ${this.table} (vehicule_id, borne_id, date_reservation, heure, heure_fin)
-             values (?, ?, ?, ?, ?)`,
+      `insert into ${this.table} (vehicule_id, borne_id, proprietaire_id, date_reservation, heure, heure_fin)
+             values (?, ?, ?, ?, ?, ?)`,
       [
         reservationData.vehicule_id,
         reservationData.borne_id,
+        reservationData.proprietaire_id,
         reservationData.date,
         reservationData.heure,
         reservationData.heure_fin,
@@ -51,10 +52,11 @@ class ReservationManager extends AbstractManager {
     return rows;
   }
 
-  async checkReservationForDelete(vehiculeId) {
+  async checkReservationForDelete(userId) {
+    console.info(userId);
     const [rows] = await this.database.query(
-      `SELECT id, borne_id, DATE_FORMAT(date_reservation, "%Y-%m-%d") as date_reservation, heure, heure_fin FROM reservation WHERE vehicule_id = ?`,
-      [vehiculeId]
+      `SELECT id, borne_id, DATE_FORMAT(date_reservation, "%Y-%m-%d") as date_reservation, heure, heure_fin FROM reservation WHERE proprietaire_id = ?`,
+      [userId]
     );
 
     return rows;

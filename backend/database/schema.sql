@@ -11,7 +11,7 @@ CREATE TABLE user (
 	ville VARCHAR(255) NOT NULL,
 	email  VARCHAR(255) NOT NULL UNIQUE,
 	password VARCHAR(300) NOT NULL,
-	connection DATE NULL,
+	connection DATE NOT NULL,
 	nb_vehicule int NOT NULL,
 	admin BOOLEAN NOT NULL,
 	anniversaire DATE NOT NULL,
@@ -78,6 +78,7 @@ CREATE TABLE reservation (
 	id int  AUTO_INCREMENT NOT NULL,
 	borne_id VARCHAR(250) NOT NULL,
 	vehicule_id int NOT NULL,
+	proprietaire_id int NOT NULL,
 	date_reservation DATE NOT NULL,
 	heure TIME NOT NULL,
 	heure_fin TIME NOT NULL,
@@ -93,4 +94,4 @@ ALTER TABLE vehicule ADD CONSTRAINT vehicule_fk1 FOREIGN KEY (modele_id) REFEREN
 
 ALTER TABLE reservation ADD CONSTRAINT reservation_fk0 FOREIGN KEY (borne_id) REFERENCES borne(id);
 
-ALTER TABLE reservation ADD CONSTRAINT reservation_fk1 FOREIGN KEY (vehicule_id) REFERENCES vehicule(id);
+ALTER TABLE reservation ADD CONSTRAINT reservation_fk1 FOREIGN KEY (proprietaire_id) REFERENCES user(id);

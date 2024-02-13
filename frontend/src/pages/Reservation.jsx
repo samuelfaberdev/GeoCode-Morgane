@@ -51,6 +51,7 @@ export default function Reservation() {
               }
             )
             .then((respo) => {
+              console.info(respo.data);
               setReservation(respo.data);
             });
         } else {
@@ -104,28 +105,26 @@ export default function Reservation() {
           <div className="reservation-card-container">
             {reservation &&
               reservation.map((res) => {
-                return res.map((r) => {
-                  const hour = r.heure.split(":")[0];
-                  const minutes = r.heure.split(":")[1];
-                  const seconds = r.heure.split(":")[2];
+                const hour = res.heure.split(":")[0];
+                const minutes = res.heure.split(":")[1];
+                const seconds = res.heure.split(":")[2];
 
-                  const reservationDate = new Date(r.date_reservation);
-                  reservationDate.setHours(hour);
-                  reservationDate.setMinutes(minutes);
-                  reservationDate.setSeconds(seconds);
+                const reservationDate = new Date(res.date_reservation);
+                reservationDate.setHours(hour);
+                reservationDate.setMinutes(minutes);
+                reservationDate.setSeconds(seconds);
 
-                  if (reservationDate >= new Date()) {
-                    return (
-                      <ReservationCard
-                        key={r.id}
-                        id={r.id}
-                        borneId={r.borne_id}
-                        date={r.date_reservation}
-                      />
-                    );
-                  }
-                  return null;
-                });
+                if (reservationDate >= new Date()) {
+                  return (
+                    <ReservationCard
+                      key={res.id}
+                      id={res.id}
+                      borneId={res.borne_id}
+                      date={res.date_reservation}
+                    />
+                  );
+                }
+                return null;
               })}
           </div>
         </div>
@@ -134,27 +133,25 @@ export default function Reservation() {
           <h2>Réservation passés</h2>
           {reservation &&
             reservation.map((res) => {
-              return res.map((r) => {
-                const hour = r.heure.split(":")[0];
-                const minutes = r.heure.split(":")[1];
-                const seconds = r.heure.split(":")[2];
+              const hour = res.heure.split(":")[0];
+              const minutes = res.heure.split(":")[1];
+              const seconds = res.heure.split(":")[2];
 
-                const reservationDate = new Date(r.date_reservation);
-                reservationDate.setHours(hour);
-                reservationDate.setMinutes(minutes);
-                reservationDate.setSeconds(seconds);
+              const reservationDate = new Date(res.date_reservation);
+              reservationDate.setHours(hour);
+              reservationDate.setMinutes(minutes);
+              reservationDate.setSeconds(seconds);
 
-                if (reservationDate < new Date()) {
-                  return (
-                    <PastReservationCard
-                      key={r.id}
-                      borneId={r.borne_id}
-                      date={r.date_reservation}
-                    />
-                  );
-                }
-                return null;
-              });
+              if (reservationDate < new Date()) {
+                return (
+                  <PastReservationCard
+                    key={res.id}
+                    borneId={res.borne_id}
+                    date={res.date_reservation}
+                  />
+                );
+              }
+              return null;
             })}
         </div>
       </div>

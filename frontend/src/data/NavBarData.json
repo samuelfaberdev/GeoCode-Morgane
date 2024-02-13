@@ -25,7 +25,7 @@
   },
   {
     "id": "4",
-    "linkname": "Réservations",
+    "linkname": "Mes réservations",
     "linkurl": "/reservations",
     "btn": false,
     "admin": false,
