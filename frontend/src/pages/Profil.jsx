@@ -9,6 +9,7 @@ import IdContext from "../Context/IdContext";
 import data from "../data/UserDataTest.json";
 import mailError from "../assets/LottieFiles/EmailError.json";
 import PrimaryButton from "../components/buttons/PrimaryButton";
+import CheckToken from "../services/CheckToken";
 
 export default function Profil() {
   const [lastname, setLastname] = useState("");
@@ -19,28 +20,9 @@ export default function Profil() {
   const [codePostal, setCodePostal] = useState("");
   const [ville, setVille] = useState("");
   const [avatar, setAvatar] = useState(data[0].img);
-  const { id, setId, setVehicules } = useContext(IdContext);
-  const [isLoading, setIsLoading] = useState(true);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const { id } = useContext(IdContext);
 
   useEffect(() => {
-    axios
-      .get(`${import.meta.env.VITE_BACKEND_URL}/api/checktoken`, {
-        withCredentials: true,
-      })
-      .then((res) => {
-        if (res.data.message === "OK") {
-          setIsLoggedIn(true);
-          setId(res.data.id);
-        } else {
-          setIsLoggedIn(false);
-          setTimeout(() => {
-            window.location.href = "/sign-in";
-          }, 3800);
-        }
-        setIsLoading(false);
-      });
-
     axios
       .get(`${import.meta.env.VITE_BACKEND_URL}/api/takedata`, {
         withCredentials: true,
@@ -55,12 +37,7 @@ export default function Profil() {
         setVille(res.data[0].ville);
       });
   }, []);
-  useEffect(() => {
-    axios
-      .get(`${import.meta.env.VITE_BACKEND_URL}/api/checkVehicule/${id}`)
-      .then((res) => setVehicules(res.data))
-      .catch((err) => console.error(err));
-  }, [id]);
+
   function Deconnexion() {
     axios
       .get(`${import.meta.env.VITE_BACKEND_URL}/api/logout`, {
@@ -69,20 +46,15 @@ export default function Profil() {
       .then((res) => {
         if (res.data.message === "OK") {
           console.info("Déconnexion Approuvée");
-          setIsLoggedIn(false);
+
           setTimeout(() => {
             window.location.href = "/sign-in";
           }, 500);
-        } else {
-          setIsLoggedIn(true);
         }
-        setIsLoading(false);
       });
   }
 
-  if (isLoading) {
-    return null;
-  }
+  CheckToken();
 
   const handleChange = (e) => {
     e.preventDefault();
@@ -110,7 +82,7 @@ export default function Profil() {
     );
   };
 
-  if (!isLoggedIn) {
+  if (CheckToken() === false) {
     return (
       <section>
         <div className="containererror">

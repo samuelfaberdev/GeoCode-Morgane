@@ -1,12 +1,14 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import axios from "axios";
 import Lottie from "react-lottie-player";
 
 import "../../scss/auth/SignInPage.scss";
 import ScrollToTop from "../ResetScrollOnPage";
 import mailError from "../../assets/LottieFiles/EmailError.json";
+import CheckToken from "../../services/CheckToken";
 
 export default function SignIn() {
+  CheckToken();
   const [details, setDetails] = useState({
     email: "",
   });
@@ -109,32 +111,8 @@ export default function SignIn() {
         error.response.data.message;
     }
   };
-  const [isLoading, setIsLoading] = useState(true);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-  useEffect(() => {
-    axios
-      .post(`${import.meta.env.VITE_BACKEND_URL}/api/checktoken`, "hello", {
-        withCredentials: true,
-      })
-      .then((res) => {
-        if (res.data.message === "OK") {
-          setIsLoggedIn(true);
-        } else {
-          setIsLoggedIn(false);
-          setTimeout(() => {
-            window.location.href = "/sign-in";
-          }, 3800);
-        }
-        setIsLoading(false);
-      });
-  }, []);
-
-  if (isLoading) {
-    return null;
-  }
-
-  if (!isLoggedIn) {
+  if (!CheckToken()) {
     return (
       <section>
         <div className="containererror">

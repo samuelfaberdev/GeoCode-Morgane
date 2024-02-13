@@ -9,14 +9,15 @@ import mailError from "../assets/LottieFiles/EmailError.json";
 import PrimaryButton from "../components/buttons/PrimaryButton";
 import SecondaryButton from "../components/buttons/SecondaryButton";
 import "../scss/doReservation.scss";
+import IdContext from "../Context/IdContext";
+import CheckToken from "../services/CheckToken";
 
 function DoReservation() {
+  CheckToken();
   // import des data sur les bornes
   const { vehiculeId, setVehiculeId, borneId } = useContext(ReservationContext);
-  const [isLoading, setIsLoading] = useState(true);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const { id } = useContext(IdContext);
   const [date, setDate] = useState({ date: "", heure: "" });
-  const [userId, setUserId] = useState("");
 
   const handleChange = (e) => {
     setDate({ ...date, [e.target.name]: e.target.value });
@@ -32,31 +33,14 @@ function DoReservation() {
 
   useEffect(() => {
     axios
-      .get(`${import.meta.env.VITE_BACKEND_URL}/api/checktoken`, {
-        withCredentials: true,
-      })
-      .then((res) => {
-        if (res.data.message === "OK") {
-          setIsLoggedIn(true);
-          setUserId(res.data.id);
-        } else {
-          setIsLoggedIn(false);
-          setTimeout(() => {
-            window.location.href = "/sign-in";
-          }, 3800);
-        }
-        setIsLoading(false);
-      });
-
-    axios
-      .get(`${import.meta.env.VITE_BACKEND_URL}/api/checkVehicule/${userId}`, {
+      .get(`${import.meta.env.VITE_BACKEND_URL}/api/checkVehicule/${id}`, {
         withCredentials: true,
       })
       .then((res) => {
         setVehiculeId(res.data);
       })
       .catch((err) => console.error(err));
-  }, [userId]);
+  }, [id]);
   const [selectedVehiculeId, setSelectedVehiculeId] = useState(0);
   const chooseVehicule = (e) => {
     setSelectedVehiculeId(e.target.value);
@@ -66,7 +50,7 @@ function DoReservation() {
     heure: date.heure,
     heure_fin: newHeure,
     borne_id: borneId.borne_id,
-    proprietaire_id: userId,
+    proprietaire_id: id,
     vehicule_id: selectedVehiculeId,
   };
   const handleSubmit = (e) => {
@@ -90,10 +74,7 @@ function DoReservation() {
       .catch((err) => console.error(err));
   };
 
-  if (isLoading) {
-    return null;
-  }
-  if (!isLoggedIn) {
+  if (!CheckToken()) {
     return (
       <section>
         <div className="containererror">

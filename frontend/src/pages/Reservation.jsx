@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import Lottie from "react-lottie-player";
 import axios from "axios";
 import { Link } from "react-router-dom";
-
+import CheckToken from "../services/CheckToken";
 import data from "../data/UserDataTest.json";
 
 import "../scss/reservation.scss";
@@ -14,60 +14,38 @@ import ReservationCard from "../components/ReservationCard";
 import PastReservationCard from "../components/PastReservationCard";
 
 export default function Reservation() {
-  const [isLoading, setIsLoading] = useState(true);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-
   const [lastname, setLastname] = useState();
   const [firstname, setFirstname] = useState();
   const [avatar, setAvatar] = useState(data[0].img);
 
   const [reservation, setReservation] = useState();
-
+  CheckToken();
   useEffect(() => {
     axios
-      .get(`${import.meta.env.VITE_BACKEND_URL}/api/checktoken`, {
+      .get(`${import.meta.env.VITE_BACKEND_URL}/api/takedata`, {
         withCredentials: true,
       })
-      .then((res) => {
-        if (res.data.message === "OK") {
-          setIsLoggedIn(true);
+      .then((resp) => {
+        setLastname(resp.data[0].nom);
+        setFirstname(resp.data[0].prenom);
+        setAvatar(data[0].img);
+      });
 
-          axios
-            .get(`${import.meta.env.VITE_BACKEND_URL}/api/takedata`, {
-              withCredentials: true,
-            })
-            .then((resp) => {
-              setLastname(resp.data[0].nom);
-              setFirstname(resp.data[0].prenom);
-              setAvatar(data[0].img);
-            });
+    axios
+      .get(
+        `${import.meta.env.VITE_BACKEND_URL}/api/reservationsBrowse`,
 
-          axios
-            .get(
-              `${import.meta.env.VITE_BACKEND_URL}/api/reservationsBrowse`,
-
-              {
-                withCredentials: true,
-              }
-            )
-            .then((respo) => {
-              setReservation(respo.data);
-            });
-        } else {
-          setIsLoggedIn(false);
-          setTimeout(() => {
-            window.location.href = "/sign-in";
-          }, 3800);
+        {
+          withCredentials: true,
         }
-        setIsLoading(false);
+      )
+      .then((respo) => {
+        setReservation(respo.data);
       });
   }, []);
 
-  if (isLoading) {
-    return null;
-  }
-
-  if (!isLoggedIn) {
+  console.info(CheckToken());
+  if (CheckToken() === false) {
     return (
       <section>
         <div className="containererror">

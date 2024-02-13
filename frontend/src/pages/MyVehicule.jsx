@@ -8,31 +8,20 @@ import IdContext from "../Context/IdContext";
 import PrimaryButton from "../components/buttons/PrimaryButton";
 import mailError from "../assets/LottieFiles/EmailError.json";
 import "../scss/Myvehicule.scss";
+import CheckToken from "../services/CheckToken";
 
 function MyVehicule() {
-  const [isLoading, setIsLoading] = useState(true);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const { id, vehicules } = useContext(IdContext);
-  // pour voir ce qu'est le _e.map qui bug au deploy
-  const [toPushInDB, setToPushInDB] = useState([]);
+  CheckToken();
 
+  const { id, setVehicules, vehicules } = useContext(IdContext);
   useEffect(() => {
     axios
-      .get(`${import.meta.env.VITE_BACKEND_URL}/api/checktoken`, {
-        withCredentials: true,
-      })
-      .then((res) => {
-        if (res.data.message === "OK") {
-          setIsLoggedIn(true);
-        } else {
-          setIsLoggedIn(false);
-          setTimeout(() => {
-            window.location.href = "/sign-in";
-          }, 3800);
-        }
-        setIsLoading(false);
-      });
-  }, []);
+      .get(`${import.meta.env.VITE_BACKEND_URL}/api/checkVehicule/${id}`)
+      .then((res) => setVehicules(res.data))
+      .catch((err) => console.error(err));
+  }, [id]);
+  const [toPushInDB, setToPushInDB] = useState([]);
+
   // envoi des informations vers le back
 
   const sendtoBack = () => {
@@ -42,11 +31,8 @@ function MyVehicule() {
       })
       .catch((err) => console.error(err));
   };
-  if (isLoading) {
-    return null;
-  }
 
-  if (!isLoggedIn) {
+  if (!CheckToken()) {
     return (
       <section>
         <div className="containererror">

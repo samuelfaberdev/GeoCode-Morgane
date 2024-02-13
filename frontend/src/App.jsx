@@ -17,6 +17,7 @@ import "./scss/components/footer.scss";
 import navData from "./data/NavBarData.json";
 
 function App() {
+  // context pour les filtres de recherche de borne
   const [research, setResearch] = useState({
     code: "",
     enseigne: "",
@@ -31,6 +32,8 @@ function App() {
     [research, setResearch]
   );
 
+  // Contexte pour la geolocalisation de la personne
+
   const [position, setPosition] = useState({ lat: 0, lng: 0 });
   const [bornes, setBornes] = useState([]);
 
@@ -38,17 +41,24 @@ function App() {
     () => ({ position, setPosition }),
     [position, setPosition]
   );
+  // Contexte pour les bornes
 
   const bornesValue = useMemo(
     () => ({ bornes, setBornes }),
     [bornes, setBornes]
   );
+
+  // Contexte sur les véhicules et les bornes id pour la réservation
+
   const [vehiculeId, setVehiculeId] = useState("");
   const [borneId, setBorneId] = useState({ borne_id: "", borne_name: "" });
   const reservationValue = useMemo(
     () => ({ vehiculeId, setVehiculeId, borneId, setBorneId }),
     [vehiculeId, setVehiculeId, borneId, setBorneId]
   );
+
+  // Contexte sur le user pour l'inscription
+
   const date = new Date().toISOString();
   const newDate = date.slice(0, 10);
   const [user, setUser] = useState({
@@ -68,15 +78,10 @@ function App() {
   });
   const UserValue = useMemo(() => ({ user, setUser }), [user, setUser]);
 
+  // Contexte pour les marques et modèle dans le panel admin
+
   const [marque, setMarque] = useState([]);
   const [modele, setModele] = useState([]);
-  const [id, setId] = useState("");
-  const [vehicules, setVehicules] = useState(null);
-  const idValue = useMemo(
-    () => ({ id, setId, vehicules, setVehicules }),
-    [id, setId, vehicules, setVehicules]
-  );
-
   useEffect(() => {
     axios
       .get(`${import.meta.env.VITE_BACKEND_URL}/api/marques`)
@@ -92,6 +97,15 @@ function App() {
       .catch((err) => console.error(err));
   }, []);
   const marqueModele = useMemo(() => ({ marque, modele }), [marque, modele]);
+
+  // Contexte sur l'id de l'utilisateur
+
+  const [id, setId] = useState("");
+  const [vehicules, setVehicules] = useState(null);
+  const idValue = useMemo(
+    () => ({ id, setId, vehicules, setVehicules }),
+    [id, setId, vehicules, setVehicules]
+  );
 
   function OnChangePage() {
     const resizeObserver = new ResizeObserver(() => {
