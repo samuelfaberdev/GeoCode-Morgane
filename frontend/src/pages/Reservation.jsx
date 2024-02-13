@@ -51,7 +51,6 @@ export default function Reservation() {
               }
             )
             .then((respo) => {
-              console.info(respo.data);
               setReservation(respo.data);
             });
         } else {

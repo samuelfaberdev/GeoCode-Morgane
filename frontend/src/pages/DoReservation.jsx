@@ -11,14 +11,12 @@ import SecondaryButton from "../components/buttons/SecondaryButton";
 import "../scss/doReservation.scss";
 
 function DoReservation() {
+  // import des data sur les bornes
+  const { vehiculeId, setVehiculeId, borneId } = useContext(ReservationContext);
   const [isLoading, setIsLoading] = useState(true);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [date, setDate] = useState({ date: "", heure: "" });
   const [userId, setUserId] = useState("");
-
-  // import des data sur les bornes
-  const { reservation, setReservation, borneId } =
-    useContext(ReservationContext);
 
   const handleChange = (e) => {
     setDate({ ...date, [e.target.name]: e.target.value });
@@ -32,15 +30,6 @@ function DoReservation() {
     minute < 10 ? "0" : ""
   }${minute}`;
 
-  const reservationData = {
-    date: date.date,
-    heure: date.heure,
-    heure_fin: newHeure,
-    borne_id: borneId.borne_id,
-    proprietaire_id: userId,
-    vehicule_id: reservation,
-  };
-  console.info(reservation);
   useEffect(() => {
     axios
       .get(`${import.meta.env.VITE_BACKEND_URL}/api/checktoken`, {
@@ -64,11 +53,22 @@ function DoReservation() {
         withCredentials: true,
       })
       .then((res) => {
-        setReservation(res.data[0].id);
+        setVehiculeId(res.data);
       })
       .catch((err) => console.error(err));
   }, [userId]);
-
+  const [selectedVehiculeId, setSelectedVehiculeId] = useState(0);
+  const chooseVehicule = (e) => {
+    setSelectedVehiculeId(e.target.value);
+  };
+  const reservationData = {
+    date: date.date,
+    heure: date.heure,
+    heure_fin: newHeure,
+    borne_id: borneId.borne_id,
+    proprietaire_id: userId,
+    vehicule_id: selectedVehiculeId,
+  };
   const handleSubmit = (e) => {
     e.preventDefault();
 
@@ -114,7 +114,7 @@ function DoReservation() {
       </section>
     );
   }
-  if (reservation === "") {
+  if (vehiculeId === "") {
     return (
       <section>
         <div className="containererror">
@@ -144,6 +144,25 @@ function DoReservation() {
       <div className="BorneInfo">Nom de la borne : {borneId.borne_name}</div>
       <div className="formulaire_Resa">
         <form className="formulaire">
+          <div className="form_placeholder">
+            <p className="form_placeholder_title">Véhicule</p>
+            <select
+              onChange={chooseVehicule}
+              className="form_placeholder_input"
+            >
+              <option>Selectionnez votre voiture</option>
+              {vehiculeId &&
+                vehiculeId.map((item) => (
+                  <option
+                    key={item.name}
+                    value={item.id}
+                    name={item.modele_name}
+                  >
+                    {item.modele_name}
+                  </option>
+                ))}
+            </select>
+          </div>
           <div className="form_placeholder">
             <p className="form_placeholder_title">Date</p>
             <input

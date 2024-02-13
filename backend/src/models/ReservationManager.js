@@ -53,7 +53,6 @@ class ReservationManager extends AbstractManager {
   }
 
   async checkReservationForDelete(userId) {
-    console.info(userId);
     const [rows] = await this.database.query(
       `SELECT id, borne_id, DATE_FORMAT(date_reservation, "%Y-%m-%d") as date_reservation, heure, heure_fin FROM reservation WHERE proprietaire_id = ?`,
       [userId]
