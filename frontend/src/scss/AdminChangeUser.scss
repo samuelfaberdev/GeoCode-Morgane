@@ -1,0 +1,14 @@
+@import "./color-config.scss";
+
+.profil {
+  background-color: $color-white;
+  text-align: center;
+}
+
+.profil-main {
+  @media (max-width: 769px) {
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+}
