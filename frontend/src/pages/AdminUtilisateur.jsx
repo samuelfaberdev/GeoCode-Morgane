@@ -103,7 +103,7 @@ export default function AdminUtilisateur() {
               .map((user) => (
                 <UserCard
                   key={user.id}
-                  firstname={user.id}
+                  firstname={user.prenom}
                   img={user.avatar || "https://i.imgur.com/5Nc6WY0.png"}
                   lastname={user.nom}
                   userData={user}
