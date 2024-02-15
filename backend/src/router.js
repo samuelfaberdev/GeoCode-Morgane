@@ -46,6 +46,9 @@ router.get("/takeid/:email", userControllers.takeId);
 // Route to edit a user
 router.post("/edituser", userControllers.edit);
 
+// Route to edit a user by an admin
+router.post("/adminEditUser", userControllers.adminEditUser);
+
 // Route to get a list of reservations
 router.post("/reservations", reservationControllers.add);
 // Route to get a list of reservations

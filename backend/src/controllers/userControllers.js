@@ -83,6 +83,43 @@ const edit = async (req, res, next) => {
     next(err);
   }
 };
+const adminEditUser = async (req, res, next) => {
+  const { id, prenom, nom, anniversaire, rue, codePostal, ville, derniereMaj } =
+    req.body;
+
+  try {
+    const birthday = new Date(anniversaire);
+    if (codePostal.toString().length === 5) {
+      if (
+        anniversaire < derniereMaj &&
+        Math.floor((Date.now() - birthday) / 31557600000) >= 18
+      ) {
+        const user = await tables.user.adminUpdateUser(
+          id,
+          prenom,
+          nom,
+          anniversaire,
+          rue,
+          codePostal,
+          ville,
+          derniereMaj
+        );
+
+        if (user.affectedRows === 0) {
+          res.sendStatus(404);
+        } else {
+          res.status(202).send({ message: "user updated" });
+        }
+      } else {
+        res.status(202).send({ message: "Date d'anniversaire incorrect" });
+      }
+    } else {
+      res.status(202).send({ message: "Code Postal incorrect" });
+    }
+  } catch (err) {
+    next(err);
+  }
+};
 
 // The A of BREAD - Add (Create) operation
 const add = async (req, res, next) => {
@@ -323,4 +360,5 @@ module.exports = {
   takeData,
   takeId,
   logout,
+  adminEditUser,
 };

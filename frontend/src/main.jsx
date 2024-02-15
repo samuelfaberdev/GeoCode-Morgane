@@ -33,6 +33,7 @@ import AddVehiculeSuccess from "./pages/Auth/addVehiculeSuccess";
 import ReservationSuccess from "./pages/Auth/reservationSuccess";
 import SuppressVehiculeSuccess from "./pages/Auth/suppressVehiculeSuccess";
 import AdminVehiculeList from "./pages/adminVehiculeList";
+import AdminChangeUser from "./pages/AdminChangeUser";
 import MyVehicule from "./pages/MyVehicule";
 
 const router = createBrowserRouter([
@@ -155,6 +156,10 @@ const router = createBrowserRouter([
       {
         path: "/SuppressVehiculeSuccess",
         element: <SuppressVehiculeSuccess />,
+      },
+      {
+        path: "/AdminChangeUser",
+        element: <AdminChangeUser />,
       },
     ],
   },

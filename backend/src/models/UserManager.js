@@ -73,7 +73,6 @@ class UserManager extends AbstractManager {
   }
 
   // The U of CRUD - Update operation
-  // TODO: Implement the update operation to modify an existing item
 
   async update(
     token,
@@ -90,6 +89,26 @@ class UserManager extends AbstractManager {
              SET nom=?, prenom=?, anniversaire=?, rue=?, code_postal=?, ville=?, derniere_maj=?
                  WHERE token = ?`,
       [nom, prenom, anniversaire, rue, codePostal, ville, derniereMaj, token]
+    );
+
+    return result;
+  }
+
+  async adminUpdateUser(
+    id,
+    prenom,
+    nom,
+    anniversaire,
+    rue,
+    codePostal,
+    ville,
+    derniereMaj
+  ) {
+    const [result] = await this.database.query(
+      `UPDATE user
+             SET nom=?, prenom=?, anniversaire=?, rue=?, code_postal=?, ville=?, derniere_maj=?
+                 WHERE id = ?`,
+      [nom, prenom, anniversaire, rue, codePostal, ville, derniereMaj, id]
     );
 
     return result;
