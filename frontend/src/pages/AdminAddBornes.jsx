@@ -2,6 +2,8 @@ import React, { useEffect, useState, useCallback } from "react";
 import Lottie from "react-lottie-player";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 /* eslint-disable react/jsx-props-no-spreading */
 // Le composant dropzone a besoin des prop spreading pour fonctionner. Vu avec SAM
 import "../scss/admin-add-bornes.scss";
@@ -19,12 +21,24 @@ export default function AdminAddBornes() {
 
   const onDrop = useCallback(
     (acceptedFile) => {
+      const csvFiles = acceptedFile.filter((item) =>
+        item.name.endsWith(".csv")
+      );
+      console.info(csvFiles);
+      if (csvFiles.length === 0) {
+        console.info(toast);
+        toast.error("Veuillez sélectionner un fichier CSV");
+        return;
+      }
       setFile(acceptedFile[0]);
     },
     [file]
   );
 
-  const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
+  const { getRootProps, getInputProps, isDragActive } = useDropzone({
+    onDrop,
+    accept: ".csv",
+  });
   const url = `${import.meta.env.VITE_BACKEND_URL}/api/uploads`;
 
   function Submit(e) {
@@ -96,6 +110,7 @@ export default function AdminAddBornes() {
       <div className="add_bornes_page">
         <ScrollToTop />
         <Breadcrumb data={arianfil} currentname="Ajouter une borne" />
+        <ToastContainer />
         <div className="add_bornes_page_container">
           <div className="upload-card">
             <h1>Ajouter des Bornes</h1>

@@ -1,12 +1,12 @@
 import "../scss/register.scss";
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import UserContext from "../Context/UserContext";
 
 function Register() {
   const { user, setUser } = useContext(UserContext);
-
+  const [disable, setDisable] = useState(true);
   const isEmailValid = (value) => {
     const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{1,4}$/;
     return emailPattern.test(value);
@@ -30,9 +30,31 @@ function Register() {
     });
   }
 
+  console.info(disable);
+  useEffect(() => {
+    if (
+      user.nom !== "" &&
+      user.prenom !== "" &&
+      user.email !== "" &&
+      user.password !== "" &&
+      user.confirmPassword !== "" &&
+      user.rue !== "" &&
+      user.ville !== "" &&
+      user.code_postal !== "" &&
+      user.anniversaire !== "" &&
+      user.connexion !== "" &&
+      user.derniere_maj !== "" &&
+      user.inscription !== "" &&
+      user.nb_vehicule !== ""
+    ) {
+      setDisable(false);
+    }
+  }, [user]);
+
   const handleChange = (event) => {
     setUser({ ...user, [event.target.name]: event.target.value });
   };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -230,9 +252,10 @@ function Register() {
         <div className="button-form">
           <div>
             <button
-              className="create_button"
               type="submit"
+              className="create_button"
               onClick={handleSubmit}
+              disabled={disable}
             >
               Créer mon compte
             </button>

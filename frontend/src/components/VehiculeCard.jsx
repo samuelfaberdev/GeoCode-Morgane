@@ -8,9 +8,6 @@ export default function VehiculeCard({ nom, prenom, marqueName, modeleName }) {
       <p className="card_borne_adresse">{prenom}</p>
       <p className="card_borne_name">{marqueName}</p>
       <p className="card_borne_adresse">{modeleName}</p>
-      <button type="button" className="blue-button">
-        Plus d’informations
-      </button>
     </div>
   );
 }

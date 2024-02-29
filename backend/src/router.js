@@ -2,7 +2,9 @@ const express = require("express");
 const multer = require("multer");
 const { hashPassword } = require("./services/auth");
 
-const upload = multer({ dest: "public/uploads/" });
+const upload = multer({
+  dest: "public/uploads/",
+});
 const router = express.Router();
 
 /* ************************************************************************* */
@@ -17,12 +19,14 @@ const modeleControllers = require("./controllers/modeleControllers");
 const vehiculeControllers = require("./controllers/vehiculeControllers");
 const tarificationControllers = require("./controllers/tarificationControllers");
 const borneControllers = require("./controllers/borneControllers");
+const checkLogIn = require("./middleware/checkLongIn");
+const checkSignIn = require("./middleware/checkSignIn");
 
 // Route to connect user
-router.post("/login", userControllers.login);
+router.post("/login", checkLogIn, userControllers.login);
 
 // Route to add a new users
-router.post("/users", hashPassword, userControllers.add);
+router.post("/users", checkSignIn, hashPassword, userControllers.add);
 
 // Route to delete user
 router.post("/delete", userControllers.userDelete);
