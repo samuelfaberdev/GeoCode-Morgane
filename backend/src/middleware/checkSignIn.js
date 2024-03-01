@@ -81,7 +81,6 @@ const validateUser = (req, res, next) => {
   );
 
   if (error) {
-    console.info(error.details);
     res.status(200).send({ message: `${error}` });
   } else {
     next();

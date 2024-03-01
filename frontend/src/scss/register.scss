@@ -177,10 +177,22 @@ input:checked + .slider:before {
   }
 }
 
-.create_button {
+.create_buttonfalse {
   background-color: #21a89a;
   border-radius: 10px;
   color: #fff;
+  cursor: pointer;
+  padding: 10px 20px;
+  text-align: center;
+  border: 0;
+  font-size: 16px;
+  user-select: none;
+  touch-action: manipulation;
+}
+.create_buttontrue {
+  background-color: #21a89b85;
+  border-radius: 10px;
+  color: #ffffff69;
   cursor: pointer;
   padding: 10px 20px;
   text-align: center;

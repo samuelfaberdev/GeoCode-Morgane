@@ -30,7 +30,6 @@ function Register() {
     });
   }
 
-  console.info(disable);
   useEffect(() => {
     if (
       user.nom !== "" &&
@@ -253,7 +252,7 @@ function Register() {
           <div>
             <button
               type="submit"
-              className="create_button"
+              className={`create_button${disable}`}
               onClick={handleSubmit}
               disabled={disable}
             >
