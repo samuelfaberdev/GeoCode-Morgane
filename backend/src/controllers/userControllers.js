@@ -334,6 +334,37 @@ const userDelete = async (req, res, next) => {
   }
 };
 
+const destroy = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+
+    const user = await tables.user.take(id);
+
+    if (user) {
+      const vehicules = await tables.vehicule.checkVehicule(user.id);
+      console.info(vehicules);
+      // eslint-disable-next-line no-unused-vars
+      vehicules.forEach(async (vehicule) => {
+        const reservation = await tables.reservation.checkReservationForDelete(
+          id
+        );
+
+        if (reservation.length === 0) {
+          await tables.user.destroy(id);
+          res.status(200).send({ message: "Compte supprimé" });
+        } else {
+          res.status(200).send({
+            message:
+              "Impossible de supprimer vous avez des réservations en cours veuillez les annuler si vous souhaitez supprimer votre compte de notre site de type internet merci de votre compréhension",
+          });
+        }
+      });
+    }
+  } catch (err) {
+    next(err);
+  }
+};
+
 const takeData = async (req, res, next) => {
   try {
     const { token } = req.cookies;
@@ -357,6 +388,7 @@ module.exports = {
   login,
   checktoken,
   userDelete,
+  destroy,
   takeData,
   takeId,
   logout,

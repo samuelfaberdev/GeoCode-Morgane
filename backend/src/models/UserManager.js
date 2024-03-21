@@ -49,20 +49,6 @@ class UserManager extends AbstractManager {
     return rows[0];
   }
 
-  async takeId(email) {
-    // Execute the SQL SELECT query to retrieve a specific item by its ID
-    const [rows] = await this.database.query(
-      // récupère le user id, vehicule id pour les vehicule dont user_id=id de la requête
-      `select *
-             from ${this.table}
-             where email = ?`,
-      [email]
-    );
-
-    // Return the first row of the result, which represents the item
-    return rows[0];
-  }
-
   async readAll() {
     // Execute the SQL SELECT query to retrieve all items from the "item" table
     const [rows] = await this.database.query(`select *
@@ -70,6 +56,20 @@ class UserManager extends AbstractManager {
 
     // Return the array of items
     return rows;
+  }
+
+  async take(id) {
+    // Execute the SQL SELECT query to retrieve a specific item by its ID
+    const [rows] = await this.database.query(
+      // récupère le user id, vehicule id pour les vehicule dont user_id=id de la requête
+      `select *
+             from ${this.table} 
+             where id = ?`,
+      [id]
+    );
+
+    // Return the first row of the result, which represents the item
+    return rows[0];
   }
 
   // The U of CRUD - Update operation

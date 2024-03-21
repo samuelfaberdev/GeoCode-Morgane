@@ -94,13 +94,15 @@ function BornesMarker() {
         ) <= parseInt(research.rayon, 10)
     );
   }
-
+  // instancie un objet supercluster
   const supercluster = new Supercluster({ radius: 75, maxZoom: 15 });
+  // créer la vue sur la map
   const [bbox, setBbox] = useState([]);
+  // zoom d'origine
   const [zoom, setZoom] = useState(15);
   const [clusters, setClusters] = useState([]);
   const map = useMap();
-
+  // mise à jour de la carte au déplacement
   function updateMap() {
     const b = map.getBounds();
     setBbox([
@@ -122,7 +124,7 @@ function BornesMarker() {
   useEffect(() => {
     map.on("move", onMove);
   }, [map, onMove]);
-
+  // créer les cluster et les ajoute à la liste clusters
   useEffect(() => {
     supercluster.load(borneFilters);
     setClusters(supercluster.getClusters(bbox, zoom));

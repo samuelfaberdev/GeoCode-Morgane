@@ -41,6 +41,9 @@ router.get("/logout", userControllers.logout);
 // Route to get a list of users
 router.get("/users", userControllers.browse);
 
+// Route to delete a user
+router.delete("/users/:id", userControllers.destroy);
+
 // Route to get a list of reservations by ID
 router.get("/users/:id", userControllers.read);
 

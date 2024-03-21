@@ -27,6 +27,9 @@ function AdminChangeUser() {
         withCredentials: true,
       })
       .catch((err) => console.error(err));
+    setTimeout(() => {
+      window.location.href = "/Admin";
+    }, 3800);
   };
   const handleChange = (e) => {
     e.preventDefault();
@@ -37,14 +40,14 @@ function AdminChangeUser() {
     }-${
       new Date().getDay() < 10 ? `0${new Date().getDay()}` : new Date().getDay()
     }`;
-
+    console.info(user);
     axios.post(
       `${import.meta.env.VITE_BACKEND_URL}/api/adminEditUser`,
       {
         id: user.id,
         nom: user.nom,
         prenom: user.prenom,
-        anniversaire: user.anniversaire,
+        anniversaire: user.anniversaire.slice(0, 10),
         email: user.email,
         rue: user.rue,
         codePostal: user.code_postal,
@@ -53,6 +56,9 @@ function AdminChangeUser() {
       },
       { withCredentials: true }
     );
+    setTimeout(() => {
+      window.location.href = "/Admin";
+    }, 3800);
   };
   return (
     <div className="backgroundImageMain">
