@@ -62,7 +62,7 @@ function Register() {
         document.getElementById("errorEmail").innerText =
           "Votre Email n'est pas valide";
         document.getElementById("email").classList.add("errorOnPlaceholder");
-      } else {
+      } else if (user.confirmPassword === user.password) {
         document.getElementById("errorEmail").innerText = "";
         document.getElementById("errorLog").innerText = "";
         document.getElementById("email").classList.remove("errorOnPlaceholder");
