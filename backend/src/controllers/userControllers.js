@@ -342,23 +342,28 @@ const destroy = async (req, res, next) => {
 
     if (user) {
       const vehicules = await tables.vehicule.checkVehicule(user.id);
-      console.info(vehicules);
-      // eslint-disable-next-line no-unused-vars
-      vehicules.forEach(async (vehicule) => {
-        const reservation = await tables.reservation.checkReservationForDelete(
-          id
-        );
 
-        if (reservation.length === 0) {
-          await tables.user.destroy(id);
-          res.status(200).send({ message: "Compte supprimé" });
-        } else {
-          res.status(200).send({
-            message:
-              "Impossible de supprimer vous avez des réservations en cours veuillez les annuler si vous souhaitez supprimer votre compte de notre site de type internet merci de votre compréhension",
-          });
-        }
-      });
+      // eslint-disable-next-line no-unused-vars
+      if (vehicules.length === 0) {
+        await tables.user.userDelete(id);
+        res.status(200).send({ message: "Compte supprimé" });
+      } else {
+        // eslint-disable-next-line no-unused-vars
+        vehicules.forEach(async (vehicule) => {
+          const reservation =
+            await tables.reservation.checkReservationForDelete(id);
+
+          if (reservation.length === 0) {
+            await tables.user.userDelete(id);
+            res.status(200).send({ message: "Compte supprimé" });
+          } else {
+            res.status(200).send({
+              message:
+                "Impossible de supprimer vous avez des réservations en cours veuillez les annuler si vous souhaitez supprimer votre compte de notre site de type internet merci de votre compréhension",
+            });
+          }
+        });
+      }
     }
   } catch (err) {
     next(err);

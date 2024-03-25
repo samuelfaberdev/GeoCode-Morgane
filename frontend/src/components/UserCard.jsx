@@ -19,7 +19,8 @@ export default function UserCard({ firstname, lastname, img, userData }) {
     setOpen(true);
   };
   const deleteUser = async () => {
-    axios
+    let mess = "";
+    await axios
       .delete(
         `${import.meta.env.VITE_BACKEND_URL}/api/users/${userData.id}`,
         {
@@ -27,12 +28,15 @@ export default function UserCard({ firstname, lastname, img, userData }) {
         },
         { withCredentials: true }
       )
-      .then((res) => setMessage(res.data.message))
+      // eslint-disable-next-line no-undef, no-return-assign
+      .then((res) => (mess = res.data.message))
       .catch((err) => console.error(err));
-    if (message === "Compte supprimé") {
+
+    setMessage(mess);
+    if (mess === "Compte supprimé") {
       setTimeout(() => {
         window.location.href = "/liste-utilisateurs";
-      }, 3800);
+      }, 1800);
     }
   };
   return (
