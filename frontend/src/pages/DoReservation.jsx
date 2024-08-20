@@ -1,6 +1,6 @@
+import axios from "axios";
 import React, { useContext, useEffect, useState } from "react";
 import Lottie from "react-lottie-player";
-import axios from "axios";
 import ReservationContext from "../Context/ReservationContext";
 
 import "../scss/reservation.scss";
@@ -8,8 +8,8 @@ import "../scss/reservation.scss";
 import mailError from "../assets/LottieFiles/EmailError.json";
 import PrimaryButton from "../components/buttons/PrimaryButton";
 import SecondaryButton from "../components/buttons/SecondaryButton";
-import "../scss/doReservation.scss";
 import IdContext from "../Context/IdContext";
+import "../scss/doReservation.scss";
 import CheckToken from "../services/CheckToken";
 
 function DoReservation() {
@@ -33,7 +33,7 @@ function DoReservation() {
 
   useEffect(() => {
     axios
-      .get(`${import.meta.env.VITE_BACKEND_URL}/api/checkVehicule/${id}`, {
+      .get(`/api/checkVehicule/${id}`, {
         withCredentials: true,
       })
       .then((res) => {
@@ -57,10 +57,7 @@ function DoReservation() {
     e.preventDefault();
 
     axios
-      .post(
-        `${import.meta.env.VITE_BACKEND_URL}/api/reservations`,
-        reservationData
-      )
+      .post(`/api/reservations`, reservationData)
       .then((res) => {
         if (res.data.insertId) {
           setTimeout(() => {

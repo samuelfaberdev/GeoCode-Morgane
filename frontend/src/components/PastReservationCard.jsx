@@ -1,5 +1,5 @@
-import { useState, useEffect } from "react";
 import axios from "axios";
+import { useEffect, useState } from "react";
 
 import PropTypes from "prop-types";
 
@@ -12,7 +12,7 @@ export default function PastReservationCard({ borneId, date }) {
 
   useEffect(() => {
     axios
-      .get(`${import.meta.env.VITE_BACKEND_URL}/api/borneinfo/${borneId}`)
+      .get(`/api/borneinfo/${borneId}`)
       .then((res) => {
         setBorneInfo(res.data);
       })

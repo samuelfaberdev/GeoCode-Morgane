@@ -1,17 +1,17 @@
+import axios from "axios";
 import React, { useEffect, useState } from "react";
 import Lottie from "react-lottie-player";
-import axios from "axios";
 import { Link } from "react-router-dom";
-import CheckToken from "../services/CheckToken";
 import data from "../data/UserDataTest.json";
+import CheckToken from "../services/CheckToken";
 
 import "../scss/reservation.scss";
 
 import mailError from "../assets/LottieFiles/EmailError.json";
 import PrimaryButton from "../components/buttons/PrimaryButton";
-import ScrollToTop from "./ResetScrollOnPage";
-import ReservationCard from "../components/ReservationCard";
 import PastReservationCard from "../components/PastReservationCard";
+import ReservationCard from "../components/ReservationCard";
+import ScrollToTop from "./ResetScrollOnPage";
 
 export default function Reservation() {
   const [lastname, setLastname] = useState();
@@ -22,7 +22,7 @@ export default function Reservation() {
   CheckToken();
   useEffect(() => {
     axios
-      .get(`${import.meta.env.VITE_BACKEND_URL}/api/takedata`, {
+      .get(`/api/takedata`, {
         withCredentials: true,
       })
       .then((resp) => {
@@ -33,7 +33,7 @@ export default function Reservation() {
 
     axios
       .get(
-        `${import.meta.env.VITE_BACKEND_URL}/api/reservationsBrowse`,
+        `/api/reservationsBrowse`,
 
         {
           withCredentials: true,

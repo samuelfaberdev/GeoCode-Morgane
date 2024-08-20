@@ -1,19 +1,19 @@
-import { useContext, useEffect, useState } from "react";
 import axios from "axios";
-import UserContext from "../Context/UserContext";
+import { useContext, useEffect, useState } from "react";
 import IdContext from "../Context/IdContext";
+import UserContext from "../Context/UserContext";
+import Vehicule from "../components/Vehicule";
 import PrimaryButton from "../components/buttons/PrimaryButton";
 import SecondaryButton from "../components/buttons/SecondaryButton";
-import ScrollToTop from "./ResetScrollOnPage";
-import Vehicule from "../components/Vehicule";
 import "../scss/AdminChangeUser.scss";
+import ScrollToTop from "./ResetScrollOnPage";
 
 function AdminChangeUser() {
   const { user, setUser } = useContext(UserContext);
   const { setVehicules, vehicules } = useContext(IdContext);
   useEffect(() => {
     axios
-      .get(`${import.meta.env.VITE_BACKEND_URL}/api/checkVehicule/${user.id}`)
+      .get(`/api/checkVehicule/${user.id}`)
       .then((res) => setVehicules(res.data))
       .catch((err) => console.error(err));
   }, [user.id]);
@@ -23,7 +23,7 @@ function AdminChangeUser() {
 
   const sendtoBack = () => {
     axios
-      .put(`${import.meta.env.VITE_BACKEND_URL}/api/vehicules`, toPushInDB, {
+      .put(`/api/vehicules`, toPushInDB, {
         withCredentials: true,
       })
       .catch((err) => console.error(err));
@@ -42,7 +42,7 @@ function AdminChangeUser() {
     }`;
     console.info(user);
     axios.post(
-      `${import.meta.env.VITE_BACKEND_URL}/api/adminEditUser`,
+      `/api/adminEditUser`,
       {
         id: user.id,
         nom: user.nom,

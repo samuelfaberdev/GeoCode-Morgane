@@ -1,16 +1,16 @@
-import React, { useEffect, useState, useCallback } from "react";
-import Lottie from "react-lottie-player";
 import axios from "axios";
+import React, { useCallback, useEffect, useState } from "react";
+import Lottie from "react-lottie-player";
 import { Link } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 /* eslint-disable react/jsx-props-no-spreading */
 // Le composant dropzone a besoin des prop spreading pour fonctionner. Vu avec SAM
-import "../scss/admin-add-bornes.scss";
 import { useDropzone } from "react-dropzone";
-import ScrollToTop from "./ResetScrollOnPage";
 import mailError from "../assets/LottieFiles/EmailError.json";
 import Breadcrumb from "../components/breadcrumb";
+import "../scss/admin-add-bornes.scss";
+import ScrollToTop from "./ResetScrollOnPage";
 
 export default function AdminAddBornes() {
   const [isAdmin, setIsAdmin] = useState();
@@ -39,7 +39,7 @@ export default function AdminAddBornes() {
     onDrop,
     accept: ".csv",
   });
-  const url = `${import.meta.env.VITE_BACKEND_URL}/api/uploads`;
+  const url = `/api/uploads`;
 
   function Submit(e) {
     e.preventDefault();
@@ -59,7 +59,7 @@ export default function AdminAddBornes() {
 
   useEffect(() => {
     axios
-      .get(`${import.meta.env.VITE_BACKEND_URL}/api/checktoken`, {
+      .get(`/api/checktoken`, {
         withCredentials: true,
       })
       .then((res) => {

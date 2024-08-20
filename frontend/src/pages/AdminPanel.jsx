@@ -1,6 +1,6 @@
+import axios from "axios";
 import React, { useEffect, useState } from "react";
 import Lottie from "react-lottie-player";
-import axios from "axios";
 import { Link } from "react-router-dom";
 import ScrollToTop from "./ResetScrollOnPage";
 
@@ -18,7 +18,7 @@ export default function AdminPanel() {
 
   useEffect(() => {
     axios
-      .get(`${import.meta.env.VITE_BACKEND_URL}/api/checktoken`, {
+      .get(`/api/checktoken`, {
         withCredentials: true,
       })
       .then((res) => {
@@ -35,19 +35,17 @@ export default function AdminPanel() {
         setIsLoading(false);
       });
 
-    axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/users`).then((res) => {
+    axios.get(`/api/users`).then((res) => {
       setData(res.data);
     });
 
-    axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/bornes`).then((res) => {
+    axios.get(`/api/bornes`).then((res) => {
       setBornesData(res.data);
     });
 
-    axios
-      .get(`${import.meta.env.VITE_BACKEND_URL}/api/reservations`)
-      .then((res) => {
-        setReservationsData(res.data);
-      });
+    axios.get(`/api/reservations`).then((res) => {
+      setReservationsData(res.data);
+    });
   }, []);
 
   const userCreatedLast7Days = data.filter((user) => {

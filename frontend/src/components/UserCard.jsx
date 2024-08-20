@@ -1,11 +1,11 @@
-import "../scss/components/user-card.scss";
-import { Link } from "react-router-dom";
-import { useContext, useState } from "react";
 import axios from "axios";
 import PropTypes from "prop-types";
+import { useContext, useState } from "react";
+import { Link } from "react-router-dom";
 import Popup from "reactjs-popup";
-import UserContext from "../Context/UserContext";
 import "reactjs-popup/dist/index.css";
+import UserContext from "../Context/UserContext";
+import "../scss/components/user-card.scss";
 
 export default function UserCard({ firstname, lastname, img, userData }) {
   const { user, setUser } = useContext(UserContext);
@@ -22,7 +22,7 @@ export default function UserCard({ firstname, lastname, img, userData }) {
     let mess = "";
     await axios
       .delete(
-        `${import.meta.env.VITE_BACKEND_URL}/api/users/${userData.id}`,
+        `/api/users/${userData.id}`,
         {
           user,
         },

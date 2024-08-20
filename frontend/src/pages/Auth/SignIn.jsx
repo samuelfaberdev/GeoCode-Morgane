@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from "react";
 import axios from "axios";
+import React, { useEffect, useState } from "react";
 
+import SecondaryButton from "../../components/buttons/SecondaryButton";
 import "../../scss/auth/SignInPage.scss";
 import ScrollToTop from "../ResetScrollOnPage";
-import SecondaryButton from "../../components/buttons/SecondaryButton";
 
 export default function SignIn() {
   const [details, setDetails] = useState({
@@ -60,7 +60,7 @@ export default function SignIn() {
         document.getElementById("email").classList.remove("errorOnPlaceholder");
 
         const response = await axios.post(
-          `${import.meta.env.VITE_BACKEND_URL}/api/login`,
+          `/api/login`,
           {
             email: escapeHtml(details.email),
             password: escapeHtml(details.password),
@@ -86,7 +86,7 @@ export default function SignIn() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   useEffect(() => {
     axios
-      .get(`${import.meta.env.VITE_BACKEND_URL}/api/checktoken`, {
+      .get(`/api/checktoken`, {
         withCredentials: true,
       })
 

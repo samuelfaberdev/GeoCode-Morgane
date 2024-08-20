@@ -1,8 +1,8 @@
+import axios from "axios";
 import React, { useEffect, useState } from "react";
 import Lottie from "react-lottie-player";
-import axios from "axios";
-import "../scss/admin-borne.scss";
 import Breadcrumb from "../components/breadcrumb";
+import "../scss/admin-borne.scss";
 
 import mailError from "../assets/LottieFiles/EmailError.json";
 import BorneCard from "../components/BorneCard";
@@ -23,7 +23,7 @@ export default function AdminBorne() {
 
   useEffect(() => {
     axios
-      .get(`${import.meta.env.VITE_BACKEND_URL}/api/checktoken`, {
+      .get(`/api/checktoken`, {
         withCredentials: true,
       })
       .then((res) => {
@@ -40,7 +40,7 @@ export default function AdminBorne() {
         setIsLoading(false);
       });
 
-    axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/bornes`).then((res) => {
+    axios.get(`/api/bornes`).then((res) => {
       setData(res.data);
     });
   }, []);

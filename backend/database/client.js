@@ -1,4 +1,6 @@
 // Get variables from .env file for database connection
+require("dotenv").config();
+
 const { DB_HOST, DB_PORT, DB_USER, DB_PASSWORD, DB_NAME } = process.env;
 
 // Create a connection pool to the database

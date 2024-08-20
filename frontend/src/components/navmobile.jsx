@@ -1,16 +1,16 @@
-import React, { useState, useEffect } from "react";
 import axios from "axios";
-import "../scss/components/mobilenav.scss";
+import React, { useEffect, useState } from "react";
 import { NavLink as Link } from "react-router-dom";
-import "../scss/root.scss";
 import data from "../data/TabData.json";
+import "../scss/components/mobilenav.scss";
+import "../scss/root.scss";
 
 export default function navmobile() {
   const [isConnected, setIsConnected] = useState(false);
 
   useEffect(() => {
     axios
-      .get(`${import.meta.env.VITE_BACKEND_URL}/api/checktoken`, {
+      .get(`/api/checktoken`, {
         withCredentials: true,
       })
 

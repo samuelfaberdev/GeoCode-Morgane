@@ -1,14 +1,14 @@
-import { useState, useEffect, useContext } from "react";
 import axios from "axios";
+import { useContext, useEffect, useState } from "react";
 import Lottie from "react-lottie-player";
-import ScrollToTop from "./ResetScrollOnPage";
+import mailError from "../assets/LottieFiles/EmailError.json";
+import PrimaryButton from "../components/buttons/PrimaryButton";
 import SecondaryButton from "../components/buttons/SecondaryButton";
 import Vehicule from "../components/Vehicule";
 import IdContext from "../Context/IdContext";
-import PrimaryButton from "../components/buttons/PrimaryButton";
-import mailError from "../assets/LottieFiles/EmailError.json";
 import "../scss/Myvehicule.scss";
 import CheckToken from "../services/CheckToken";
+import ScrollToTop from "./ResetScrollOnPage";
 
 function MyVehicule() {
   CheckToken();
@@ -16,7 +16,7 @@ function MyVehicule() {
   const { id, setVehicules, vehicules } = useContext(IdContext);
   useEffect(() => {
     axios
-      .get(`${import.meta.env.VITE_BACKEND_URL}/api/checkVehicule/${id}`)
+      .get(`/api/checkVehicule/${id}`)
       .then((res) => setVehicules(res.data))
       .catch((err) => console.error(err));
   }, [id]);
@@ -26,7 +26,7 @@ function MyVehicule() {
 
   const sendtoBack = () => {
     axios
-      .put(`${import.meta.env.VITE_BACKEND_URL}/api/vehicules`, toPushInDB, {
+      .put(`/api/vehicules`, toPushInDB, {
         withCredentials: true,
       })
       .catch((err) => console.error(err));

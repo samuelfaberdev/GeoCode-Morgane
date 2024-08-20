@@ -1,6 +1,6 @@
+import axios from "axios";
 import { useContext, useState } from "react";
 import Lottie from "react-lottie-player";
-import axios from "axios";
 import { Link } from "react-router-dom";
 import PrimaryButton from "../../components/buttons/PrimaryButton";
 import IdContext from "../../Context/IdContext";
@@ -8,9 +8,9 @@ import IdContext from "../../Context/IdContext";
 import mailError from "../../assets/LottieFiles/EmailError.json";
 import "../../scss/auth/SignInPage.scss";
 
-import ScrollToTop from "../ResetScrollOnPage";
 import MarqueModeleContext from "../../Context/MarqueModeleContext";
 import CheckToken from "../../services/CheckToken";
+import ScrollToTop from "../ResetScrollOnPage";
 
 function AddYourVehicule() {
   CheckToken();
@@ -37,7 +37,7 @@ function AddYourVehicule() {
   };
   const handleSubmit = () => {
     axios
-      .post(`${import.meta.env.VITE_BACKEND_URL}/api/vehicules`, vehiculeData, {
+      .post(`/api/vehicules`, vehiculeData, {
         withCredentials: true,
       })
       .catch((err) => console.error(err));
