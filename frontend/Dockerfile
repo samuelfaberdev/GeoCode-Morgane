@@ -1,4 +1,4 @@
-FROM node:18 as builder
+FROM node:lts-alpine as builder
 
 RUN mkdir /app
 WORKDIR /app
