@@ -24,14 +24,10 @@ const seed = async () => {
 
     // Insert fake data into the 'item' table
 
-    fs.createReadStream("./database/petit.csv")
+    fs.createReadStream("./database/bornes.csv")
       .pipe(csv({ separator: "," }))
       .on("data", (data) => {
         const line = data;
-
-        if (data.id_station === "") {
-          line.id_station = "non renseigné";
-        }
 
         if (data.n_enseigne === "") {
           line.n_enseigne = "non renseigné";
@@ -55,13 +51,12 @@ const seed = async () => {
 
         queries.push(
           database.query(
-            `INSERT INTO borne (id, id_station, n_station, ad_station, code_postal, lng, lat, puiss_max,
+            `INSERT INTO borne (id, n_station, ad_station, code_postal, lng, lat, puiss_max,
                                             accessibilite, type_prise, n_enseigne,
                                             date_maj)
-                         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+                         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
             [
               uuidv4(),
-              line.id_station,
               line.n_station,
               line.ad_station,
               line.code_insee,
@@ -78,48 +73,6 @@ const seed = async () => {
       });
     /* ************************************************************************* */
 
-    queries.push(
-      database.query(
-        `INSERT INTO user (nom, prenom, rue, code_postal, ville, email, password, connection,
-                                   nb_vehicule, admin, anniversaire, inscription, derniere_maj)
-                 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
-        [
-          "nom",
-          "user",
-          "rue",
-          "12345",
-          "ville",
-          "user@gmail.com",
-          "Azerty1234",
-          1,
-          1,
-          0,
-          "1990-01-01",
-          "2024-01-01",
-          "2024-01-01",
-        ]
-      ),
-      database.query(
-        `INSERT INTO user (nom, prenom, rue, code_postal, ville, email, password, connection,
-                                   nb_vehicule, admin, anniversaire, inscription, derniere_maj)
-                 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
-        [
-          "nom",
-          "admin",
-          "rue",
-          "12345",
-          "ville",
-          "admin@gmail.com",
-          "Azerty1234",
-          1,
-          1,
-          1,
-          "1990-01-01",
-          "2024-01-01",
-          "2024-01-01",
-        ]
-      )
-    );
 
     // Wait for all the insertion queries to complete
     await Promise.all(queries);
