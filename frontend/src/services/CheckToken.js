@@ -1,5 +1,5 @@
-import { useState, useContext } from "react";
 import axios from "axios";
+import { useContext, useState } from "react";
 import IdContext from "../Context/IdContext";
 
 function CheckToken() {
@@ -7,7 +7,7 @@ function CheckToken() {
   const { setId } = useContext(IdContext);
 
   axios
-    .get(`${import.meta.env.VITE_BACKEND_URL}/api/checktoken`, {
+    .get(`/api/checktoken`, {
       withCredentials: true,
     })
     .then((res) => {

@@ -1,15 +1,15 @@
-import { Link } from "react-router-dom";
-import React, { useState, useEffect, useContext } from "react";
 import axios from "axios";
+import React, { useContext, useEffect, useState } from "react";
 import Lottie from "react-lottie-player";
+import { Link } from "react-router-dom";
 
-import ScrollToTop from "./ResetScrollOnPage";
-import "../scss/profil.scss";
-import IdContext from "../Context/IdContext";
-import data from "../data/UserDataTest.json";
 import mailError from "../assets/LottieFiles/EmailError.json";
 import PrimaryButton from "../components/buttons/PrimaryButton";
+import IdContext from "../Context/IdContext";
+import data from "../data/UserDataTest.json";
+import "../scss/profil.scss";
 import CheckToken from "../services/CheckToken";
+import ScrollToTop from "./ResetScrollOnPage";
 
 export default function Profil() {
   const [lastname, setLastname] = useState("");
@@ -24,7 +24,7 @@ export default function Profil() {
 
   useEffect(() => {
     axios
-      .get(`${import.meta.env.VITE_BACKEND_URL}/api/takedata`, {
+      .get(`/api/takedata`, {
         withCredentials: true,
       })
       .then((res) => {
@@ -40,7 +40,7 @@ export default function Profil() {
 
   function Deconnexion() {
     axios
-      .get(`${import.meta.env.VITE_BACKEND_URL}/api/logout`, {
+      .get(`/api/logout`, {
         withCredentials: true,
       })
       .then((res) => {
@@ -67,7 +67,7 @@ export default function Profil() {
     }`;
 
     axios.post(
-      `${import.meta.env.VITE_BACKEND_URL}/api/edituser`,
+      `/api/edituser`,
       {
         nom: lastname,
         prenom: firstname,

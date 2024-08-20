@@ -1,11 +1,11 @@
-import React, { useState } from "react";
 import axios from "axios";
+import React, { useState } from "react";
 import Lottie from "react-lottie-player";
 
-import "../../scss/auth/SignInPage.scss";
-import ScrollToTop from "../ResetScrollOnPage";
 import mailError from "../../assets/LottieFiles/EmailError.json";
+import "../../scss/auth/SignInPage.scss";
 import CheckToken from "../../services/CheckToken";
+import ScrollToTop from "../ResetScrollOnPage";
 
 export default function SignIn() {
   CheckToken();
@@ -62,7 +62,7 @@ export default function SignIn() {
         document.getElementById("errorLog").innerText = "";
         document.getElementById("email").classList.remove("errorOnPlaceholder");
         const response = await axios.post(
-          `${import.meta.env.VITE_BACKEND_URL}/api/delete`,
+          `/api/delete`,
           {
             email: escapeHtml(details.email),
             password: escapeHtml(details.password),

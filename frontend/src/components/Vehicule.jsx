@@ -1,8 +1,8 @@
-import { useState, useContext } from "react";
-import PropTypes from "prop-types";
 import axios from "axios";
-import "reactjs-popup/dist/index.css";
+import PropTypes from "prop-types";
+import { useContext, useState } from "react";
 import Popup from "reactjs-popup";
+import "reactjs-popup/dist/index.css";
 import MarqueModeleContext from "../Context/MarqueModeleContext";
 
 function Vehicule({
@@ -41,9 +41,7 @@ function Vehicule({
   };
 
   const deleteVehicule = () => {
-    axios.delete(
-      `${import.meta.env.VITE_BACKEND_URL}/api/vehicules/${vehiculeId}`
-    );
+    axios.delete(`/api/vehicules/${vehiculeId}`);
     setTimeout(() => {
       window.location.href = "/suppressVehiculeSuccess";
     }, 1000);

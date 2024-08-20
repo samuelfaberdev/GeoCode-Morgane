@@ -1,15 +1,15 @@
-import { Marker, Popup, useMap } from "react-leaflet";
-import L from "leaflet";
 import axios from "axios";
-import { useContext, useEffect, useState, useCallback } from "react";
+import L from "leaflet";
+import { useCallback, useContext, useEffect, useState } from "react";
+import { Marker, Popup, useMap } from "react-leaflet";
 import { Link } from "react-router-dom";
 import Supercluster from "supercluster";
-import convertToDistance from "../services/ConvertToDistance";
 import iconMarker from "../assets/borne-marker-white.svg";
+import BornesContext from "../Context/BornesContext";
 import LocationContext from "../Context/locationContext";
 import FilterContext from "../Context/ResearchContext";
 import ReservationContext from "../Context/ReservationContext";
-import BornesContext from "../Context/BornesContext";
+import convertToDistance from "../services/ConvertToDistance";
 
 function GetIcon() {
   // fonction qui permet de customiser l'icône des bornes
@@ -33,7 +33,7 @@ function BornesMarker() {
     console.info(research);
   }, [research]);
 
-  const API_URL = `${import.meta.env.VITE_BACKEND_URL}/api`;
+  const API_URL = `/api`;
 
   useEffect(() => {
     // import des data sur les bornes

@@ -1,13 +1,13 @@
+import axios from "axios";
 import React, { useEffect, useState } from "react";
 import Lottie from "react-lottie-player";
-import axios from "axios";
 
 import "../scss/admin-utilisateur.scss";
 
-import UserCard from "../components/UserCard";
-import ScrollToTop from "./ResetScrollOnPage";
 import mailError from "../assets/LottieFiles/EmailError.json";
 import Breadcrumb from "../components/breadcrumb";
+import UserCard from "../components/UserCard";
+import ScrollToTop from "./ResetScrollOnPage";
 
 export default function AdminUtilisateur() {
   const [isLoading, setIsLoading] = useState(true);
@@ -23,18 +23,16 @@ export default function AdminUtilisateur() {
 
   useEffect(() => {
     axios
-      .get(`${import.meta.env.VITE_BACKEND_URL}/api/checktoken`, {
+      .get(`/api/checktoken`, {
         withCredentials: true,
       })
       .then((res) => {
         if (res.data.message === "OK" && res.data.admin === true) {
           setIsLoggedIn(true);
           setIsAdmin(true);
-          axios
-            .get(`${import.meta.env.VITE_BACKEND_URL}/api/users`)
-            .then((resp) => {
-              setData(resp.data);
-            });
+          axios.get(`/api/users`).then((resp) => {
+            setData(resp.data);
+          });
         } else {
           setIsLoggedIn(false);
           setIsAdmin(false);

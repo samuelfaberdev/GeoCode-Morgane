@@ -1,8 +1,8 @@
-import "../scss/register.scss";
-import { useContext, useEffect, useState } from "react";
 import axios from "axios";
+import { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import UserContext from "../Context/UserContext";
+import "../scss/register.scss";
 
 function Register() {
   const { user, setUser } = useContext(UserContext);
@@ -69,7 +69,7 @@ function Register() {
 
         await axios
           .post(
-            `${import.meta.env.VITE_BACKEND_URL}/api/users`,
+            `/api/users`,
             {
               nom: escapeHtml(user.nom),
               prenom: escapeHtml(user.prenom),

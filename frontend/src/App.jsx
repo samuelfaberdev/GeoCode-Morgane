@@ -1,18 +1,18 @@
-import { Outlet } from "react-router-dom";
-import { useMemo, useState, useEffect } from "react";
 import axios from "axios";
-import FilterResearch from "./Context/ResearchContext";
-import LocationContext from "./Context/locationContext";
+import { useEffect, useMemo, useState } from "react";
+import { Outlet } from "react-router-dom";
 import BornesContext from "./Context/BornesContext";
-import ReservationContext from "./Context/ReservationContext";
-import MarqueModele from "./Context/MarqueModeleContext";
-import UserContext from "./Context/UserContext";
 import IdContext from "./Context/IdContext";
+import MarqueModele from "./Context/MarqueModeleContext";
+import FilterResearch from "./Context/ResearchContext";
+import ReservationContext from "./Context/ReservationContext";
+import UserContext from "./Context/UserContext";
+import LocationContext from "./Context/locationContext";
+import Footer from "./components/footer";
 import Navbar from "./components/navbar";
 import NavMobile from "./components/navmobile";
-import Footer from "./components/footer";
-import "./scss/root.scss";
 import "./scss/components/footer.scss";
+import "./scss/root.scss";
 
 import navData from "./data/NavBarData.json";
 
@@ -84,13 +84,13 @@ function App() {
   const [modele, setModele] = useState([]);
   useEffect(() => {
     axios
-      .get(`${import.meta.env.VITE_BACKEND_URL}/api/marques`)
+      .get(`/api/marques`)
       .then((resp) => {
         setMarque(resp.data);
       })
       .catch((err) => console.error(err));
     axios
-      .get(`${import.meta.env.VITE_BACKEND_URL}/api/modeles`)
+      .get(`/api/modeles`)
       .then((res) => {
         setModele(res.data);
       })

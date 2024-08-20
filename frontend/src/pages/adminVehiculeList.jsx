@@ -1,8 +1,8 @@
+import axios from "axios";
 import React, { useEffect, useState } from "react";
 import Lottie from "react-lottie-player";
-import axios from "axios";
-import "../scss/admin-borne.scss";
 import Breadcrumb from "../components/breadcrumb";
+import "../scss/admin-borne.scss";
 
 import mailError from "../assets/LottieFiles/EmailError.json";
 import VehiculeCard from "../components/VehiculeCard";
@@ -23,7 +23,7 @@ export default function adminVehiculeList() {
 
   useEffect(() => {
     axios
-      .get(`${import.meta.env.VITE_BACKEND_URL}/api/checktoken`, {
+      .get(`/api/checktoken`, {
         withCredentials: true,
       })
       .then((res) => {
@@ -40,11 +40,9 @@ export default function adminVehiculeList() {
         setIsLoading(false);
       });
 
-    axios
-      .get(`${import.meta.env.VITE_BACKEND_URL}/api/vehicules`)
-      .then((res) => {
-        setData(res.data);
-      });
+    axios.get(`/api/vehicules`).then((res) => {
+      setData(res.data);
+    });
   }, []);
 
   if (isLoading) {

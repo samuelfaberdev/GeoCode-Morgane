@@ -1,17 +1,17 @@
+import axios from "axios";
 import React, { useEffect, useState } from "react";
 import Lottie from "react-lottie-player";
-import axios from "axios";
 import { Link } from "react-router-dom";
-import "../scss/admin-add-vehicule.scss";
-import ScrollToTop from "./ResetScrollOnPage";
 import mailError from "../assets/LottieFiles/EmailError.json";
 import Breadcrumb from "../components/breadcrumb";
+import "../scss/admin-add-vehicule.scss";
+import ScrollToTop from "./ResetScrollOnPage";
 
 export default function AdminAddVehicule() {
   const [isAdmin, setIsAdmin] = useState();
   const [isLoading, setIsLoading] = useState(true);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const urlmarques = `${import.meta.env.VITE_BACKEND_URL}/api/marques`;
+  const urlmarques = `/api/marques`;
 
   async function Submit() {
     const data = [];
@@ -33,7 +33,7 @@ export default function AdminAddVehicule() {
 
   useEffect(() => {
     axios
-      .get(`${import.meta.env.VITE_BACKEND_URL}/api/checktoken`, {
+      .get(`/api/checktoken`, {
         withCredentials: true,
       })
       .then((res) => {

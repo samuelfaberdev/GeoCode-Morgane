@@ -1,7 +1,7 @@
-import { NavLink as Link } from "react-router-dom";
-import { useEffect, useState } from "react";
 import axios from "axios";
 import PropTypes from "prop-types";
+import { useEffect, useState } from "react";
+import { NavLink as Link } from "react-router-dom";
 
 import "../scss/components/navbar.scss";
 import "../scss/root.scss";
@@ -15,7 +15,7 @@ export default function Navbar({ navData }) {
 
   useEffect(() => {
     axios
-      .get(`${import.meta.env.VITE_BACKEND_URL}/api/checktoken`, {
+      .get(`/api/checktoken`, {
         withCredentials: true,
       })
 
